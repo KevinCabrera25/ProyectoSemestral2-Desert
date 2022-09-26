@@ -41,29 +41,7 @@ public class RayGunSystem : MonoBehaviour
     }
 
     void ShootingRay()
-    {   /*
-        // Typical Raycasting function, where the coordinates of the screen are turned into the game coordinates 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // "ray" defines the ray to use
-        // "out" modifies the variable storaged in the hit variable (The object that it returns when the ray hits)
-        // "range" is how far the the raycasting goes
-        if(Physics.Raycast(ray, out hit, range))
-        {
-            // Instantiate the laser GO                 prefab        position          rotation
-            GameObject laser = GameObject.Instantiate(shotPrefab, transform.position, transform.rotation) as GameObject;
-
-            // Set the target for the laser, the laser moves towards the target
-            laser.GetComponent<ShotBehavior>().SetTarget(hit.point);
-
-            // If the laser does not collision with anything it will be destroy
-            GameObject.Destroy(laser, 2f);
-        }
-        */
-
-        // Variable to store what we hit
-        // RaycastHit hit;
-
+    {   
         if (Physics.Raycast(sCam.transform.position, sCam.transform.forward, out hit, range))
         {
             // Message to know what we shoot
@@ -85,8 +63,6 @@ public class RayGunSystem : MonoBehaviour
             // If the laser does not collision with anything it will be destroy
             GameObject.Destroy(laser, 2f);
         }
-
     }
-
 }
 

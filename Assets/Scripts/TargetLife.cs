@@ -5,13 +5,8 @@ using UnityEngine;
 public class TargetLife : MonoBehaviour
 {
     // Variable of the Enemy's HP
-    public float hp = 20f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    [SerializeField] private float hp = 20f;
+   
     // Function to inflict damage with a variable amount on how much damage is gonna take
     public void TakeDamage (float amount)
     {

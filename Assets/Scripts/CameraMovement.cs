@@ -26,8 +26,7 @@ public class CameraMovement : MonoBehaviour
         if (inputX != 0)
             Rotation();
         if (inputZ != 0)
-            Movex();           
-
+            Movex();       
     }
 
     // Movement in the Z axis
