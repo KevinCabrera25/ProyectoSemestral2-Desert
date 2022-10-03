@@ -22,7 +22,7 @@ public class RayGunSystem : MonoBehaviour
     public Camera sCam;
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
         // Shooting Condition if the left click is pressed
         if (Input.GetMouseButton(0))
