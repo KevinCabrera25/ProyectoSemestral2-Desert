@@ -5,41 +5,41 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     // X axis variable
-    float inputX;
+    private float _inputX;
     // Variable to control the Speed Movement
-    public float speedMovement;
+    [SerializeField] private float _speedMovement;
     // Z axis variable
-    float inputZ;
+    private float _inputZ;
     // Variable to control the Speed rotation
-    public float speedRotation;
-    // Public variable to assign the Joystick in the Inspector
-    public Joystick joystickMove;
+    [SerializeField] private float _speedRotation;
+    // Variable to assign the Joystick in the Inspector
+    [SerializeField] private Joystick _joystickMove;
 
     // Update is called once per frame
     void Update()
     {
         // Access to the input
-        inputX = joystickMove.Horizontal + Input.GetAxis("Horizontal");
-        inputZ = joystickMove.Vertical + Input.GetAxis("Vertical");
+        _inputX = _joystickMove.Horizontal + Input.GetAxis("Horizontal");
+        _inputZ = _joystickMove.Vertical + Input.GetAxis("Vertical");
 
         // Conditions to enter to each specific method
-        if (inputX != 0)
+        if (_inputX != 0)
             Rotation();
-        if (inputZ != 0)
-            Movex();       
+        if (_inputZ != 0)
+            MoveX();
     }
 
     // Movement in the Z axis
-    public void Movex()
+    public void MoveX()
     {
         // Fordward movement times the speedMovement variable to affect the speed
-        transform.position += transform.forward * inputZ * Time.deltaTime * speedMovement;
+        transform.position += transform.forward * _inputZ * Time.deltaTime * _speedMovement;
     }
 
     // Movement in the X axis
     public void Rotation()
     {
         // Movement in X times the speedRotation variable to affect the speed
-        transform.Rotate(new Vector3(0f, inputX * Time.deltaTime * speedRotation));
+        transform.Rotate(new Vector3(0f, _inputX * Time.deltaTime * _speedRotation));
     }
 }

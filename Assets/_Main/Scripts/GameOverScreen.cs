@@ -19,6 +19,5 @@ public class GameOverScreen : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
         // Restarts the Game
         Time.timeScale = 1f;
-
     }
 }

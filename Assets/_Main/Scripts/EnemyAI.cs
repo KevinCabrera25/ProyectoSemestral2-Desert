@@ -10,19 +10,20 @@ public class EnemyAI : MonoBehaviour
     // Variable to assign the reference of the Player
     [SerializeField] private Transform _player;
     // Variables to assing the Layers
-    public LayerMask Ground, Player;
+    [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private LayerMask _playerMask;
 
     // Enemy is patroling
     [SerializeField] private Vector3 _walkPoint;
     // Variable to check if the Walk Point is set
-    bool walkPointSet;
+    private bool _walkPointSet;
     // Controls the Walk Range
     [SerializeField] private float _walkPointRange;
 
     // Enemy is Attacking
     [SerializeField] private float _attacksCD; // Time between attacks
     // To check if the Enemy has already attacked
-    bool alreadyAttacked;
+    private bool _alreadyAttacked;
     // Reference to assign the laser Enemy
     [SerializeField] private GameObject _laserEnemy;
     // Reference to assign the Attack Point Enemy
@@ -52,19 +53,19 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         // Checks for the Sight Range                       Position  Sight Range  Layer Player
-        _playerInSightRange = Physics.CheckSphere(transform.position, _sightRange, Player);
+        _playerInSightRange = Physics.CheckSphere(transform.position, _sightRange, _playerMask);
         // Checks for the Attack Range                      Position  Attack Range  Layer Player
-        _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, Player);
+        _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, _playerMask);
 
         // If the Player is not in Sight Range nor in Attack Range
-        if(!_playerInSightRange && !_playerInAttackRange)
+        if (!_playerInSightRange && !_playerInAttackRange)
         {
             // The Enemy is Patrolling
             Patrolling();
         }
 
         // If the Player is in Sight Range but not in Attack Range
-        if(_playerInSightRange && !_playerInAttackRange)
+        if (_playerInSightRange && !_playerInAttackRange)
         {
             // The Enemy is Chasing
             ChasePlayer();
@@ -81,13 +82,13 @@ public class EnemyAI : MonoBehaviour
     // ****** PATROLLING ******
     private void Patrolling()
     {
-        // If there is no walkPointSet then invokes the SearchWalkPoint Method
-        if(!walkPointSet)
+        // If there is no _walkPointSet then invokes the SearchWalkPoint Method
+        if (!_walkPointSet)
         {
             SearchWalkPoint();
         }
-        // If there is a walkPointSet
-        if(walkPointSet)
+        // If there is a _walkPointSet
+        if (_walkPointSet)
         {
             // The Enemy walks to the walkPoint
             _agent.SetDestination(_walkPoint);
@@ -97,10 +98,10 @@ public class EnemyAI : MonoBehaviour
         Vector3 distanceToWalkPoint = transform.position - _walkPoint;
 
         // If the distance is less than 1 the walkPoint is reached
-        if(distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 1f)
         {
-            // Resets the walkPointSet to search for a new WalkPoint
-            walkPointSet = false;
+            // Resets the _walkPointSet to search for a new WalkPoint
+            _walkPointSet = false;
         }
     }
 
@@ -114,12 +115,11 @@ public class EnemyAI : MonoBehaviour
         _walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         // To verify if this point is within the map we check if is on Ground with Raycast
-        if(Physics.Raycast(_walkPoint, -transform.up, 2f, Ground)) // If is on Ground
+        if (Physics.Raycast(_walkPoint, -transform.up, 2f, _groundMask)) // If is on Ground
         {
-            // The bool is true, we have a walkPointSet
-            walkPointSet = true;
+            // The bool is true, we have a _walkPointSet
+            _walkPointSet = true;
         }
-
     }
 
     // ****** CHASING ******
@@ -138,18 +138,15 @@ public class EnemyAI : MonoBehaviour
         transform.LookAt(_player);
 
         // If the Enemy has not yet attacked
-        if(!alreadyAttacked)
+        if (!_alreadyAttacked)
         {
             // Invokes Shooting Method
             Shooting();
             // Sets the bool to true
-            alreadyAttacked = true;
+            _alreadyAttacked = true;
             // Invokes the ResetAttack function, and the _attacksCD as a delay
             Invoke(nameof(ResetAttack), _attacksCD);
-
-
         }
-       
     }
 
     private void Shooting()
@@ -157,19 +154,19 @@ public class EnemyAI : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         Vector3 targetPlayerPoint;
-        if(Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
         {
             targetPlayerPoint = hit.point;
             Debug.Log(hit.transform.name);
 
             // Reference to the Player's PH to take Damage    
             PlayerHP playerHP = hit.transform.GetComponent<PlayerHP>();
-            if(playerHP != null)
+            if (playerHP != null)
             {
                 playerHP.PlayerDamageTaken(_enemysDamage);
-            }           
+            }
         }
-        else 
+        else
         {
             targetPlayerPoint = ray.GetPoint(77f);
         }
@@ -195,6 +192,6 @@ public class EnemyAI : MonoBehaviour
     private void ResetAttack()
     {
         // Sets the bool to false
-        alreadyAttacked = false;
+        _alreadyAttacked = false;
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56022bc80468f554d8e0ac0c09bfaad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  _hp: 20
 --- !u!195 &397941730
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -368,10 +368,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _agent: {fileID: 397941730}
   _player: {fileID: 963194228}
-  Ground:
+  _groundMask:
     serializedVersion: 2
     m_Bits: 64
-  Player:
+  _playerMask:
     serializedVersion: 2
     m_Bits: 128
   _walkPoint: {x: 0, y: 0, z: 0}
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56022bc80468f554d8e0ac0c09bfaad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  _hp: 20
 --- !u!1 &626294062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,9 +1236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcc0879ef0441d41b3a9042008a6af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMovement: 3
-  speedRotation: 60
-  joystickMove: {fileID: 692550111}
+  _speedMovement: 3
+  _speedRotation: 60
+  _joystickMove: {fileID: 692550111}
 --- !u!54 &963194231
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1267,8 +1267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2eff7cf69963154a9df6c0de4d8e124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 0.2
-  rb: {fileID: 963194231}
+  _jumpForce: 5
+  _rb: {fileID: 963194231}
 --- !u!136 &963194233
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1522,7 +1522,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1334355832}
-  - component: {fileID: 1334355833}
   m_Layer: 7
   m_Name: Muzzle
   m_TagString: Untagged
@@ -1545,22 +1544,6 @@ Transform:
   m_Father: {fileID: 963194228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1334355833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334355831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f301cc7ec305b4d4cbde113fa1e9a9bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunCooldown: 0.25
-  shotPrefab: {fileID: 136330, guid: 9a0c3383523899643a8d0661cfaca4e4, type: 3}
-  damage: 2
-  sCam: {fileID: 963194227}
 --- !u!1 &1557334605
 GameObject:
   m_ObjectHideFlags: 0
