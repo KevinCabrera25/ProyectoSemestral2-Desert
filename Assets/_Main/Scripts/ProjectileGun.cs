@@ -26,8 +26,8 @@ public class ProjectileGun : MonoBehaviour
     private int _bulletsLeft, _bulletsShot;
     // Bools to check the Shooting Status 
     private bool _shooting, _readyToShoot, _reloading;
-
-    private bool allowInvoke = true;
+    // Bool that checks if the ResetShot Method is ready allowed to Invoke
+    private bool _allowInvoke = true;
 
     // UI variables
     // Variable to assign the muzzle flash
@@ -35,15 +35,12 @@ public class ProjectileGun : MonoBehaviour
     // Variable to assign the ammo display
     [SerializeField] private TextMeshProUGUI _ammoDisplay;
 
-
     private void Awake()
     {
         // At the begining the bullets left is equal to the magazine size, meaning the magazine is full
         _bulletsLeft = _magazineSize;
         // And the Player is ready to shoot
         _readyToShoot = true;
-
-        
     }
 
 
@@ -54,7 +51,7 @@ public class ProjectileGun : MonoBehaviour
         PlayerInput();
 
         // Set ammo Display if it exists
-        if(_ammoDisplay != null)
+        if (_ammoDisplay != null)
         {
             // ammo display show the magazineSize is divided by bulletsTap to show actually how many clicks the Player has
             _ammoDisplay.SetText(_bulletsLeft / _bulletsTap + " / " + _magazineSize / _bulletsTap);
@@ -64,13 +61,13 @@ public class ProjectileGun : MonoBehaviour
     private void PlayerInput()
     {
         // Check if the Player is allowed to hold the fire button
-        if(_allowShootButton)
+        if (_allowShootButton)
         {
             // If holding the mouse left button shooting would be true
             _shooting = Input.GetKey(KeyCode.Mouse0);
         }
         // If the Player is NOT allowed to hold the fire button
-        else 
+        else
         {
             // The Player needs to tap the button every time to shoot
             _shooting = Input.GetKeyDown(KeyCode.Mouse0);
@@ -80,20 +77,21 @@ public class ProjectileGun : MonoBehaviour
         // The conditions for reloading are whenever the R key is pressed
         // There are no bullets left in the magazine
         // The player has not yet reloaded
-        if(Input.GetKeyDown(KeyCode.R) && _bulletsLeft < _magazineSize && !_reloading)
+        if (Input.GetKeyDown(KeyCode.R) && _bulletsLeft < _magazineSize && !_reloading)
         {
             Reload();
         }
+
         // Auto Reloading
         // Whenever the Player wants to shoot and is not reloading and there are no bullets left in the magazine (0 bullets)
-        if(_readyToShoot && _shooting && !_reloading && _bulletsLeft <= 0)
+        if (_readyToShoot && _shooting && !_reloading && _bulletsLeft <= 0)
         {
             Reload();
         }
 
         // Checks if the Player is Ready to Shoot and Shooting (Meaning that the Input has given)
         // Also the condition has to check if the Player is not reloading and has bullets in the magazine
-        if(_readyToShoot && _shooting && !_reloading && _bulletsLeft > 0)
+        if (_readyToShoot && _shooting && !_reloading && _bulletsLeft > 0)
         {
             // If so the bullets shot is set to 0
             _bulletsShot = 0;
@@ -117,7 +115,7 @@ public class ProjectileGun : MonoBehaviour
         Vector3 targetPoint;
 
         // Check if the Raycast has hit something
-        if(Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
         {
             // If hits something the hit point is in fact the Target Point
             targetPoint = hit.point;
@@ -125,18 +123,18 @@ public class ProjectileGun : MonoBehaviour
             Debug.Log(hit.transform.name);
 
             TargetLife target = hit.transform.GetComponent<TargetLife>();
-            if(target != null)
+            if (target != null)
             {
                 target.TakeDamage(_damage);
             }
         }
         // If the Ray does not hit anything then it shot to the air
-        else 
+        else
         {
             // A point far away from the player is the Target Point
             targetPoint = ray.GetPoint(77);
         }
-       
+
         // Calculate the Direction from Attack Point to Target Point
         Vector3 directionWithoutSpread = targetPoint - _attackPoint.position;
 
@@ -161,7 +159,6 @@ public class ProjectileGun : MonoBehaviour
         // For granades we add an Upward Force
         currentBullet.GetComponent<Rigidbody>().AddForce(_fpsCamera.transform.up * _upwardForce, ForceMode.Impulse);
 
-
         // Instantiate Muzzle Flash
         // If theres is a muzzle flash
         if (_muzzleFlash != null)
@@ -178,11 +175,11 @@ public class ProjectileGun : MonoBehaviour
         _bulletsShot++;
 
         // Invokes ResetShot 
-        if(allowInvoke)
+        if (_allowInvoke)
         {   // _timeBtwnShooting as delay
             Invoke(nameof(ResetShot), _timeBtwnShooting);
             // We only need to Invoke once
-            allowInvoke = false;
+            _allowInvoke = false;
         }
     }
 
@@ -190,7 +187,7 @@ public class ProjectileGun : MonoBehaviour
     {
         // The bools are true
         _readyToShoot = true;
-        allowInvoke = true;
+        _allowInvoke = true;
     }
 
     private void Reload()

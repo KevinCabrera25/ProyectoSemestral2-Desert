@@ -5,16 +5,16 @@ using UnityEngine;
 public class TargetLife : MonoBehaviour
 {
     // Variable of the Enemy's HP
-    [SerializeField] private float hp = 20f;
-   
+    [SerializeField] private float _hp = 20f;
+
     // Function to inflict damage with a variable amount on how much damage is gonna take
-    public void TakeDamage (float amount)
+    public void TakeDamage(float amount)
     {
         // Substracting Enemy's life
-        hp -= amount;
+        _hp -= amount;
 
         // Condition to Destroy the Enemy
-        if (hp <= 0)
+        if (_hp <= 0)
         {
             // Invoke Die Method
             Die();

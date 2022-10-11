@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 3370324}
   - component: {fileID: 11489952}
   - component: {fileID: 10825254}
-  - component: {fileID: 5161476943329273479}
   - component: {fileID: -5403245999699562681}
   m_Layer: 0
-  m_Name: Laser Enemy
+  m_Name: Laser Shot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,21 +167,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &5161476943329273479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136330}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cb039d3a64491f4ebfc852d25b5ee70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: 0}
-  collisionExplosion: {fileID: 0}
-  speed: 300
 --- !u!54 &-5403245999699562681
 Rigidbody:
   m_ObjectHideFlags: 0

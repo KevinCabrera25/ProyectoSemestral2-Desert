@@ -16,9 +16,8 @@ public class GameOverScreen : MonoBehaviour
 
     public void RestartButton()
     {
-        SceneManager.LoadScene("DesertGame");
+        SceneManager.LoadScene("SampleScene");
         // Restarts the Game
         Time.timeScale = 1f;
-
     }
 }
