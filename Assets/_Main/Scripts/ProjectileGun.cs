@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems; // Events
 
 public class ProjectileGun : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class ProjectileGun : MonoBehaviour
     [SerializeField] private GameObject _muzzleFlash;
     // Variable to assign the ammo display
     [SerializeField] private TextMeshProUGUI _ammoDisplay;
+    // Variable to control when button is pressed
+    private bool _fireButtonPressed;
 
     private void Awake()
     {
@@ -41,6 +44,8 @@ public class ProjectileGun : MonoBehaviour
         _bulletsLeft = _magazineSize;
         // And the Player is ready to shoot
         _readyToShoot = true;
+
+        _fireButtonPressed = false;
     }
 
 
@@ -58,19 +63,21 @@ public class ProjectileGun : MonoBehaviour
         }
     }
 
-    private void PlayerInput()
+    public void PlayerInput()
     {
         // Check if the Player is allowed to hold the fire button
-        if (_allowShootButton)
+        if (_allowShootButton && _fireButtonPressed)
         {
             // If holding the mouse left button shooting would be true
             _shooting = Input.GetKey(KeyCode.Mouse0);
+            //_shooting = _fireButton;
         }
         // If the Player is NOT allowed to hold the fire button
         else
         {
             // The Player needs to tap the button every time to shoot
             _shooting = Input.GetKeyDown(KeyCode.Mouse0);
+            // _shooting = _fireButton;
         }
 
         // ***** RELOADING *****
@@ -99,6 +106,17 @@ public class ProjectileGun : MonoBehaviour
             Shoot();
         }
     }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _fireButtonPressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _fireButtonPressed = false;
+    }
+
 
     private void Shoot()
     {
