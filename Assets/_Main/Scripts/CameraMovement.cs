@@ -19,8 +19,14 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         // Access to the input
-        _inputX = _joystickMove.Horizontal + Input.GetAxis("Horizontal");
-        _inputZ = _joystickMove.Vertical + Input.GetAxis("Vertical");
+        _inputX = _joystickMove.Horizontal;
+        _inputZ = _joystickMove.Vertical;
+
+        // If condition only implemented in the Editor
+#if UNITY_EDITOR
+        _inputX = Input.GetAxis("Horizontal");
+        _inputZ = Input.GetAxis("Vertical");
+#endif
 
         // Conditions to enter to each specific method
         if (_inputX != 0)
