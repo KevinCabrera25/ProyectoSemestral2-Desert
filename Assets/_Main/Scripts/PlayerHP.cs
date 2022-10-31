@@ -1,17 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHP : MonoBehaviour
 {
     // Variable for the Player's HP
-    [SerializeField] private float _playerHP;
+    [SerializeField] private float _playerHP = default;
     // Reference to assign the GAME OVER SCREEN
-    [SerializeField] private GameOverScreen GameOverScreen;
+    [SerializeField] private GameOverScreen GameOverScreen = default;
     // Reference to assign the HP UI
-    [SerializeField] private TextMeshProUGUI _playerHPUI;
+    [SerializeField] private TextMeshProUGUI _playerHPUI = default;
 
     // This Method accepts the Amount of Player's Damage Taken
     public void PlayerDamageTaken(float amountPDT)
@@ -53,6 +51,6 @@ public class PlayerHP : MonoBehaviour
     IEnumerator Grab(MeshRenderer otherDraw)
     {
         otherDraw.material.color = Color.green;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
     }
 }
