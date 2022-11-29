@@ -147,7 +147,7 @@ public class ProjectileGun : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             // If hits something the hit point is in fact the Target Point
             targetPoint = hit.point;
             // Message to know what we shoot
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
 
             TargetLife target = hit.transform.GetComponent<TargetLife>();
             if (target != null)

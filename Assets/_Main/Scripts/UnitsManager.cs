@@ -7,7 +7,7 @@ public class UnitsManager : MonoBehaviour
 {
     public static UnitsManager Instance { get; private set; }
     // Creating a Dynamic List of Scripts of EnemyAI
-    private List<EnemyAI> enemyUnitList;
+    private int _numberOfEnemies = default;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class UnitsManager : MonoBehaviour
         Instance = this;
 
         // Cleans the List creating a new List every Instance
-        enemyUnitList = new List<EnemyAI>();
+        _numberOfEnemies = 0;
     }
 
     private void Start()
@@ -41,15 +41,15 @@ public class UnitsManager : MonoBehaviour
 
     private void TargetLife_OnAnyEnemyDead(object sender, EventArgs e)
     {
-        // Access to the sender
-        EnemyAI enemyAI = sender as EnemyAI;
-        // Removes the Dead Enemies from the List
-        enemyUnitList.Remove(enemyAI);
-
+        Debug.Log("Listened to OnEnemyDead");
+        Debug.Log(GetEnemyUnitsRemaining());
+        _numberOfEnemies--;
+        Debug.Log(GetEnemyUnitsRemaining() + "-->");
         // Access to the UnitsManager and when The List of Units is 0
         // Loads the Victory Scene
         if (GetEnemyUnitsRemaining() == 0)
         {
+            Debug.Log("We Won");
             // Load Victory Scene
             SceneManager.LoadScene("Victory");
         }
@@ -58,23 +58,13 @@ public class UnitsManager : MonoBehaviour
     // sender on the Event is associated to every enemy
     private void EnemyAI_OnAnyUnitSpawned(object sender, EventArgs e)
     {
-        // The EnemyAI script is stored in the varible and access to the sender in form of the EnemyAI script
-        EnemyAI enemyAI = sender as EnemyAI;
         // Each time an Enemy spawns is added to the List
-        enemyUnitList.Add(enemyAI);
+        _numberOfEnemies++;
     }
 
     // Method that checks how many Enemies are left
     public int GetEnemyUnitsRemaining()
     {
-        // The variable is initialized
-        int enemyUnitsRemaining = 0;
-        // Cycle to identify the EnemyAI scripts in the List
-        foreach (EnemyAI enemyUnit in enemyUnitList)
-        {
-            enemyUnitsRemaining++;
-        }
-        // Returns the value of the Units Left
-        return enemyUnitsRemaining;
+        return _numberOfEnemies;        
     }
 }

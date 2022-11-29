@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-
 public class EnemyAI : MonoBehaviour
 {
     // Events
@@ -48,7 +47,7 @@ public class EnemyAI : MonoBehaviour
     {
         // Finds for the Player
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log("I've found the Player");
+        //Debug.Log("I've found the Player");
         // Assign the NavMeshAgent
         _agent = GetComponent<NavMeshAgent>();
     }
@@ -165,7 +164,7 @@ public class EnemyAI : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             targetPlayerPoint = hit.point;
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
 
             // Reference to the Player's PH to take Damage    
             PlayerHP playerHP = hit.transform.GetComponent<PlayerHP>();
