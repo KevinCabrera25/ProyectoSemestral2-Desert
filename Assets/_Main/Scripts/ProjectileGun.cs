@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.EventSystems; // Events
+using UnityEngine.UI;
 
-public class ProjectileGun : MonoBehaviour
+public class ProjectileGun : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     // Reference to assign the bullet
     [SerializeField] private GameObject _bullet;
@@ -13,6 +11,8 @@ public class ProjectileGun : MonoBehaviour
     [SerializeField] private Camera _fpsCamera;
     // Reference to assign the Attack Point
     [SerializeField] private Transform _attackPoint;
+
+    [SerializeField] private Button fireBtn;
     // Bullet Forces involved
     [SerializeField] private float _shootForce, _upwardForce;
     // Gun Stats
@@ -44,8 +44,12 @@ public class ProjectileGun : MonoBehaviour
         _bulletsLeft = _magazineSize;
         // And the Player is ready to shoot
         _readyToShoot = true;
-
         _fireButtonPressed = false;
+    }
+
+    private void Start()
+    {
+        fireBtn.onClick.AddListener(() => { OnFireButtonPressed(); });
     }
 
 
@@ -65,19 +69,19 @@ public class ProjectileGun : MonoBehaviour
 
     public void PlayerInput()
     {
-        // Check if the Player is allowed to hold the fire button
+        // Check if the Player is allowed to hold the fire button        
         if (_allowShootButton && _fireButtonPressed)
         {
             // If holding the mouse left button shooting would be true
-            _shooting = Input.GetKey(KeyCode.Mouse0);
-            //_shooting = _fireButton;
+            //_shooting = Input.GetKey(KeyCode.S);
+            _shooting = _fireButtonPressed;
         }
         // If the Player is NOT allowed to hold the fire button
         else
         {
             // The Player needs to tap the button every time to shoot
-            _shooting = Input.GetKeyDown(KeyCode.Mouse0);
-            // _shooting = _fireButton;
+            //_shooting = Input.GetKeyDown(KeyCode.S);
+            _shooting = _fireButtonPressed;
         }
 
         // ***** RELOADING *****
@@ -102,9 +106,15 @@ public class ProjectileGun : MonoBehaviour
         {
             // If so the bullets shot is set to 0
             _bulletsShot = 0;
+            _fireButtonPressed = false;
             // Invokes the Shoot Method
             Shoot();
         }
+    }
+
+    private void OnFireButtonPressed()
+    {
+        _fireButtonPressed = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -116,7 +126,6 @@ public class ProjectileGun : MonoBehaviour
     {
         _fireButtonPressed = false;
     }
-
 
     private void Shoot()
     {
@@ -138,7 +147,7 @@ public class ProjectileGun : MonoBehaviour
             // If hits something the hit point is in fact the Target Point
             targetPoint = hit.point;
             // Message to know what we shoot
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
 
             TargetLife target = hit.transform.GetComponent<TargetLife>();
             if (target != null)
@@ -167,6 +176,9 @@ public class ProjectileGun : MonoBehaviour
         // Instantiate the bullet at the Attack Point position with no rotation
         // The instantiate bullets are stored in the currentBullet variable
         GameObject currentBullet = Instantiate(_bullet, _attackPoint.position, Quaternion.identity);
+
+        // Instantiate the Audio Manager for the Shot Sound
+        AudioManager.Instance.ShotPlayPlayer();
 
         // Rotate the bullet at the direction the Player shoots
         currentBullet.transform.forward = directionWithSpread.normalized;
@@ -210,6 +222,8 @@ public class ProjectileGun : MonoBehaviour
 
     private void Reload()
     {
+        // Instantiate the Audio Manager for the Reloading Sound
+        AudioManager.Instance.PlayReloading();
         // The Player is reloading
         _reloading = true;
         // Invokes the ReloadFinished with _reloadTime as delay

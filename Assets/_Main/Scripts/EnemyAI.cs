@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
 {
+    // Events
+    public static event EventHandler OnAnyUnitSpawned;
     // Variable to assign the reference of the Agent
     [SerializeField] private NavMeshAgent _agent;
     // Variable to assign the reference of the Player
@@ -45,9 +47,13 @@ public class EnemyAI : MonoBehaviour
     {
         // Finds for the Player
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log("I've found the Player");
         // Assign the NavMeshAgent
         _agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     private void Update()
@@ -157,7 +163,7 @@ public class EnemyAI : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             targetPlayerPoint = hit.point;
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
 
             // Reference to the Player's PH to take Damage    
             PlayerHP playerHP = hit.transform.GetComponent<PlayerHP>();
