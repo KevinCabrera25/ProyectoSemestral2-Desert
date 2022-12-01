@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,15 +40,14 @@ public class UnitsManager : MonoBehaviour
 
     private void TargetLife_OnAnyEnemyDead(object sender, EventArgs e)
     {
-        Debug.Log("Listened to OnEnemyDead");
-        Debug.Log(GetEnemyUnitsRemaining());
+        // Debug.Log("Listened to OnEnemyDead");
+        // Debug.Log(GetEnemyUnitsRemaining());
         _numberOfEnemies--;
-        Debug.Log(GetEnemyUnitsRemaining() + "-->");
+        // Debug.Log(GetEnemyUnitsRemaining() + "-->");
         // Access to the UnitsManager and when The List of Units is 0
         // Loads the Victory Scene
         if (GetEnemyUnitsRemaining() == 0)
         {
-            Debug.Log("We Won");
             // Load Victory Scene
             SceneManager.LoadScene("Victory");
         }

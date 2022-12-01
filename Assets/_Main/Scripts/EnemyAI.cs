@@ -47,7 +47,6 @@ public class EnemyAI : MonoBehaviour
     {
         // Finds for the Player
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-        //Debug.Log("I've found the Player");
         // Assign the NavMeshAgent
         _agent = GetComponent<NavMeshAgent>();
     }

@@ -57,32 +57,27 @@ public class AudioManager : MonoBehaviour
 
     public void ShotPlayPlayer()
     {
-        //Debug.Log("Piuh Piuh");
         PlaySound(_playerShot);
     }
 
     public void PlaySteps()
     {
-        //Debug.Log("Step Step");
         PlaySound(_stepsAC);
     }
 
     public void PlayReloading()
     {
-        //Debug.Log("Reloading");
         PlaySound(_reloading);
     }
 
     public void PlayDamageTaken()
     {
-        //Debug.Log("Auch");
         _audioSourceDamage.clip = _damage[Random.Range(0, _damage.Length)];
         _audioSourceDamage.Play();
     }
 
     public void PlayHealing()
     {
-        //Debug.Log("Im OK");
         PlaySound(_healing);
     }
 
